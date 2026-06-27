@@ -30,7 +30,7 @@ export default function Home() {
         <div className="text-xl font-medium">Bangun<span className="text-emerald-600">In</span></div>
         <div className="flex gap-3">
           <button className="px-4 py-2 text-sm border rounded-lg">Daftar jasa</button>
-          <button className="px-4 py-2 text-sm bg-emerald-600 text-white rounded-lg">Masuk</button>
+          <a href="/login" className="px-4 py-2 text-sm bg-emerald-600 text-white rounded-lg">Masuk</a>
         </div>
       </nav>
 
