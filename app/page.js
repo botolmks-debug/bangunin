@@ -13,7 +13,7 @@ export default function Home() {
   }, [])
 
   async function fetchPenyedia() {
-    const { data } = await supabase.from('penyedia').select('*')
+    const { data } = await supabase.from('penyedia').select('*').eq('status', 'aktif')
     setPenyedia(data || [])
     setLoading(false)
   }
