@@ -57,7 +57,7 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {filtered.map(p => (
-              <div key={p.id} className="bg-white border rounded-xl p-4 hover:border-emerald-500 cursor-pointer">
+              <a key={p.id} href={`/penyedia/${p.id}`} className="bg-white border rounded-xl p-4 hover:border-emerald-500 cursor-pointer block">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-medium text-sm">
                     {p.nama.split(' ').slice(0,2).map(w => w[0]).join('')}
@@ -74,9 +74,17 @@ export default function Home() {
                     <div className="text-yellow-500 text-xs">{'★'.repeat(Math.floor(p.rating || 0))}</div>
                     <div className="text-xs text-gray-400">{p.jumlah_ulasan || 0} ulasan</div>
                   </div>
-                  <a href={`https://wa.me/${p.no_wa}`} target="_blank" className="text-xs px-3 py-1.5 border border-emerald-600 text-emerald-600 rounded-lg hover:bg-emerald-50">Hubungi</a>
+                  <button
+  onClick={(e) => {
+    e.preventDefault()
+    window.open(`https://wa.me/${p.no_wa}`, '_blank')
+  }}
+  className="text-xs px-3 py-1.5 border border-emerald-600 text-emerald-600 rounded-lg"
+>
+  Hubungi
+</button>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         )}
