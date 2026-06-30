@@ -7,10 +7,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [kategori, setKategori] = useState('semua')
+  const [user, setUser] = useState(null)
 
-  useEffect(() => {
+ useEffect(() => {
     fetchPenyedia()
+    checkUser()
   }, [])
+
+  async function checkUser() {
+    const { data: { session } } = await supabase.auth.getSession()
+    setUser(session?.user || null)
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    setUser(null)
+  }
 
   async function fetchPenyedia() {
     const { data } = await supabase.from('penyedia').select('*').eq('status', 'aktif')
@@ -28,10 +40,17 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b px-6 py-4 flex justify-between items-center">
         <div className="text-xl font-medium">Bangun<span className="text-emerald-600">In</span></div>
-        <div className="flex gap-3">
-          <button className="px-4 py-2 text-sm border rounded-lg">Daftar jasa</button>
-          <a href="/login" className="px-4 py-2 text-sm bg-emerald-600 text-white rounded-lg">Masuk</a>
-        </div>
+    <div className="flex gap-3 items-center">
+  <a href="/daftar-jasa" className="px-4 py-2 text-sm border rounded-lg">Daftar jasa</a>
+  {user ? (
+    <>
+      <span className="text-sm text-gray-600">Halo, {user.email}</span>
+      <button onClick={handleLogout} className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg">Keluar</button>
+    </>
+  ) : (
+    <a href="/login" className="px-4 py-2 text-sm bg-emerald-600 text-white rounded-lg">Masuk</a>
+  )}
+</div>
       </nav>
 
       <div className="text-center py-16 px-6">
